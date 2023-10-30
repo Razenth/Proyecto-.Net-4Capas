@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Aplicacion.UnitOfWork;
 using AspNetCoreRateLimit;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Helpers;
@@ -52,7 +54,7 @@ namespace WebApi.Extensions
 
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            // services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
@@ -81,7 +83,7 @@ namespace WebApi.Extensions
                         ValidAudience = configuration["JWT:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
                     };
-            });
+                });
         }
     }
 }
